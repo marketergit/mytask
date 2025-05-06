@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Groq API Frontend</title>
+</head>
+<body>
+  <h1>Chat with Groq API</h1>
+  <textarea id="user_input" rows="4" cols="50" placeholder="Ask something..."></textarea><br><br>
+  <button onclick="submitRequest()">Send</button>
+
+  <h2>Response:</h2>
+  <p id="response"></p>
+
+  <script>
+    function submitRequest() {
+      const userInput = document.getElementById("user_input").value;
+      fetch("http://127.0.0.1:5000/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ user_input: userInput }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById("response").textContent = data.response;
+        })
+        .catch(error => {
+          document.getElementById("response").textContent = "Error: " + error;
+        });
+    }
+  </script>
+</body>
+</html>
